@@ -1,0 +1,15 @@
+{
+    "name": "tarcisioruas/varejofacil",
+    "description": "SDK para comunica\u0000\u0000o de Projetos PHP com a API do ERP varejofacil",
+    "type": "library",
+    "license": "MIT",
+    "keywords": ["VarejoFacil", "api" , "sdk" ],
+    "homepage": "https://github.com/tarcisioruas/varejofacil-sdk",
+    "authors": [
+        {
+            "name": "Tarcísio",
+            "email": "tarcisioruas@gmail.com"
+        }
+    ],
+    "require": {}
+}
