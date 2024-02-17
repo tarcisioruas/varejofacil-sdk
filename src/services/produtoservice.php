@@ -53,6 +53,38 @@ class ProdutoService
         return $resp;
     }
 
+    public function get(int $codProduto): Response
+    {
+        $resp = new Response();
+
+        do {
+            $resposta = $this->sdk->get($this->resource . 'consulta/' . $codProduto, []);
+            $resp->setTotal($resposta->total)
+                ->setCount($resposta->count)
+                ->moveStart($resposta->count);
+
+            if (isset($resposta->items)) {
+                foreach ($resposta->items as $item) {
+                    $produto = new Produto($item->id, $item->descricao);
+                    $produto->setBalanca($item->enviaBalanca)
+                        ->setPesoBruto(isset($item->pesoBruto) ? $item->pesoBruto : null)
+                        ->setLargura($item->largura)
+                        ->setAltura($item->altura)
+                        ->setComprimento($item->comprimento);
+
+                    if (isset($item->imagem)) {
+                        $urlImagem = $this->sdk->getUrl() . 'arquivo/view?uuid=' . $item->imagem;
+                        $produto->setImagem($urlImagem);
+                    }
+                    $produto->setNCM($item->ncmId);
+                    $resp->addItem($produto);
+                }
+            }
+        } while ($resp->getStart() < $resp->getTotal());
+
+        return $resp;
+    }
+
 
     public function count(String $filter = ''): int
     {
